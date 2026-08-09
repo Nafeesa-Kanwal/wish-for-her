@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Special Wish For You ❤️</title>
+<style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    text-align: center;
+    overflow: hidden;
+  }
+  .box {
+    background: rgba(255,255,255,0.95);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    max-width: 450px;
+    z-index: 10;
+    animation: pop 0.6s ease;
+  }
+  @keyframes pop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  input {
+    padding: 12px;
+    width: 80%;
+    border: 2px solid #ff9a9e;
+    border-radius: 10px;
+    margin: 10px 0;
+    font-size: 16px;
+  }
+  button {
+    padding: 12px 25px;
+    background: #ff6b81;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+  }
+  button:hover { background: #ff4757; transform: scale(1.05); }
+  #message { display: none; }
+  h1 { color: #ff4757; }
+  
+  /* Floating hearts */
+  .heart {
+    position: absolute;
+    color: #ff4757;
+    font-size: 20px;
+    animation: float 6s infinite;
+    opacity: 0.7;
+  }
+  @keyframes float {
+    0% { transform: translateY(100vh) scale(0); }
+    50% { opacity: 1; }
+    100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating hearts background -->
+<div id="hearts"></div>
+
+<!-- Background music - CHANGE THE SONG LINK -->
+<audio id="bgMusic" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<div class="box" id="login">
+  <h1>🔒 Secret Message</h1>
+  <p>Enter the password to see your special wish</p>
+  <input type="password" id="password" placeholder="Enter secret word">
+  <br>
+  <button onclick="checkPassword()">Open 💌</button>
+  <p id="error" style="color:red; display:none;">Wrong password!</p>
+</div>
+
+<div class="box" id="message">
+  <h1>For You, My Dear Aleena Gulzar ❤️</h1>
+  <p>This is my little wish for you.</p>
+  <p>Happiest Birthday me dear jaaan </p>
+  <p>I made this just for you because you're special to me
+    ✨"To my dearest painting artist and tea partner, the one who always listens, laughs, and gossips with me through hostel nights — you are truly the best part of my hostel life and the reason it feels like home. I wish your life to be as colorful, bright, and beautiful as the art you create, filled with joy, love, and endless inspiration." 💖✨
+  I love it when you call me for tea doing lululululu . I love it we listen  naseebo's songs together . you are special for me .I want your life to be colorful As you put colors in your  paintings 💖✨</p>
+  <br>
+  <button onclick="playPause()">🎵 Play/Pause Song</button>
+  <p style="font-size:12px; margin-top:15px;">With love,<br>From Nafeesa your tea partner</p>
+</div>
+
+<script>
+// Password check
+function checkPassword() {
+  const pass = document.getElementById('password').value;
+  if(pass === "Lululululu") { // CHANGE THIS PASSWORD
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('message').style.display = 'block';
+    document.getElementById('bgMusic').play(); // auto play music
+    createHearts(); // start hearts
+  } else {
+    document.getElementById('error').style.display = 'block';
+  }
+}
+
+// Play/Pause button
+function playPause() {
+  const music = document.getElementById('bgMusic');
+  if(music.paused) music.play();
+  else music.pause();
+}
+
+// Floating hearts
+function createHearts() {
+  setInterval(() => {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.innerHTML = '❤️';
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = Math.random() * 3 + 3 + 's';
+    document.getElementById('hearts').appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+  }, 300);
+}
+</script>
+
+</body>
+</html>
