@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -75,17 +76,14 @@
   @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-120vh) rotate(20deg); opacity: 0; } }
 
   .date-box { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 12px; border: 1px dashed var(--accent); margin: 15px 0; }
-
-  /* YOUTUBE PLAYER HIDE */
-  #youtubePlayer { position: fixed; bottom: -100px; left: -100px; width: 1px; height: 1px; opacity: 0; }
 </style>
 </head>
 <body>
 
 <div class="heart-bg" id="heartBg"></div>
 
-<!-- YOUTUBE PLAYER -->
-<audio autoplay loop ><source src="voice.mp3" type="audio/mp3"></audio>
+<!-- AUDIO PLAYER HIDDEN -->
+<audio id="bgMusic" loop><source src="voice.mp3" type="audio/mp3"></audio>
 
 <div class="music-btn" id="musicBtn" onclick="toggleMusic()">🎵</div>
 <div class="balloon-container" id="balloonContainer"></div>
@@ -162,12 +160,10 @@
 </div>
 
 <script>
-// STEP 0: APNA WHATSAPP NUMBER YAHAN DALO
+// APNA WHATSAPP NUMBER YAHAN DALO
 const MY_WHATSAPP_NUMBER = "923485839537"; 
-// YOUTUBE VIDEO ID - HAPPY BIRTHDAY TUNE
-const YOUTUBE_VIDEO_ID = "y6Sxv-sUYtM"; // ye happy birthday piano tune hai
 
-let youtubePlayer = document.getElementById('youtubePlayer');
+let music = document.getElementById('bgMusic');
 let isPlaying = false;
 
 function nextStep(stepNumber) {
@@ -178,9 +174,9 @@ function nextStep(stepNumber) {
 // 1. PASSWORD
 function checkPassword() {
   const pass = document.getElementById('password').value;
-  if(pass === "Lululululu") { 
+  if(pass === "Lululu") { 
     nextStep(2);
-    playYoutube(); // YOUTUBE MUSIC START
+    playMusic(); // MUSIC START
     createHearts(); 
   } else {
     document.getElementById('error').style.display = 'block';
@@ -219,7 +215,6 @@ function blowCandle() {
 }
 
 // 5. TREAT YES/NO LOGIC + WHATSAPP
-let treatGiven = false;
 function treatAnswer(answer) {
   const date = document.getElementById('treatDate').value;
   const confirmText = document.getElementById('dateConfirm');
@@ -227,45 +222,41 @@ function treatAnswer(answer) {
   if(answer === 'yes') {
     if(date === "") {
       confirmText.innerText = `Yayyy! But first pick a date for the treat 🥳`;
-      treatGiven = false;
     } else {
-      // WHATSAPP MSG BHEJO
+      // WHATSAPP MSG BHEJO - SIRF 1 BAAR
       if(!localStorage.getItem('treatSent')){
         let niceDate = new Date(date).toLocaleDateString('en-PK', {day:'numeric', month:'long', year:'numeric'});
         let msg = `🎁 SURPRISE! 🎉\n\nAleena ne treat date lock kar di hai\n📅 Date: ${niceDate}\n\nAb treat deni padegi 😏`;
         window.open(`https://wa.me/${MY_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
         localStorage.setItem('treatSent', 'true');
       }
-
       confirmText.innerText = `Yesss! Treat locked for ${date} 🥳 Can't wait! Love youuu`;
-      treatGiven = true;
       confetti({ particleCount: 100, spread: 70 });
     }
   } 
   else if(answer === 'no') {
     confirmText.innerText = `Your rejection is NOT accepted! 😤 Try again.`;
-    treatGiven = false;
     event.target.style.animation = 'shake 0.5s';
     setTimeout(()=> event.target.style.animation = '', 500);
   }
 }
 
-// 6. YOUTUBE MUSIC CONTROL
-function playYoutube(){
-  youtubePlayer.src = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&loop=1&playlist=${YOUTUBE_VIDEO_ID}&controls=0`;
+// 6. MUSIC CONTROL
+function playMusic(){
+  music.play().catch(e=>console.log("Autoplay blocked"));
   isPlaying = true;
   document.getElementById('musicBtn').innerText = '🎵';
 }
 
-function stopYoutube(){
-  youtubePlayer.src = "";
+function stopMusic(){
+  music.pause();
   isPlaying = false;
   document.getElementById('musicBtn').innerText = '🔇';
 }
 
 function toggleMusic() {
-  if (isPlaying) { stopYoutube(); }
-  else { playYoutube(); }
+  if (isPlaying) { stopMusic(); }
+  else { playMusic(); }
 }
 
 // 7. FLOATING HEARTS
@@ -282,16 +273,13 @@ function createHearts() {
 
 // 8. RESET
 function resetAll() { 
-  stopYoutube();
+  stopMusic();
+  localStorage.removeItem('treatSent'); // Reset whatsapp bhi
   location.reload(); 
 }
 </script>
 </body>
 </html>
 
-   
-  
-  
 
- 
- 
+Bana k btao kaisa laga?
